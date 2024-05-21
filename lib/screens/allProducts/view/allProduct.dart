@@ -53,7 +53,6 @@ class _AllProductsState extends State<AllProducts> {
                                 bottomLeft: Radius.circular(25),
                               ),
                               image: DecorationImage(
-                                  fit: BoxFit.cover,
                                   image:
                                       NetworkImage(products![index]['image'])),
                             ),
