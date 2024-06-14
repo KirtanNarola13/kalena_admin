@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:kalena_admin/utils/helper/firebase_helper/firestore_helper.dart';
 
@@ -14,6 +16,8 @@ class MyOrderScreen extends StatefulWidget {
 class _MyOrderScreenState extends State<MyOrderScreen> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.sizeOf(context).height;
+    double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirestoreHelper.firestoreHelper.fetchOrders(),
@@ -26,21 +30,51 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
             Map<String, List<DocumentSnapshot<Map<String, dynamic>>>>
                 groupedOrders = groupOrdersByCustomer(snapshot.data!.docs);
 
-            return ListView(
-              children: groupedOrders.entries.map((entry) {
-                String customerName = entry.key;
-                List<DocumentSnapshot<Map<String, dynamic>>> orders =
-                    entry.value;
-                return Card(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  child: ExpansionTile(
-                    title: Text(customerName),
-                    children: orders.map((order) {
-                      return buildOrderTile(order);
+            return Column(
+              children: [
+                SafeArea(
+                  child: Container(
+                    color: Colors.grey.shade300,
+                    height: height * 0.05,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Total Order :-",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          groupedOrders.length.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: groupedOrders.entries.map((entry) {
+                      String customerName = entry.key;
+                      List<DocumentSnapshot<Map<String, dynamic>>> orders =
+                          entry.value;
+                      return Card(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        child: ExpansionTile(
+                          title: Text(customerName),
+                          children: orders.map((order) {
+                            return buildOrderTile(order);
+                          }).toList(),
+                        ),
+                      );
                     }).toList(),
                   ),
-                );
-              }).toList(),
+                ),
+              ],
             );
           }
           return Center(

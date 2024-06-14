@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalena_admin/utils/helper/firebase_helper/firestore_helper.dart';
@@ -30,7 +31,7 @@ class _AllProductsState extends State<AllProducts> {
                 itemCount: products?.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    height: h / 3.5,
+                    height: h / 3,
                     width: w / 0.9,
                     margin: const EdgeInsets.only(top: 30, left: 20, right: 10),
                     decoration: BoxDecoration(
@@ -84,7 +85,7 @@ class _AllProductsState extends State<AllProducts> {
                                           child: Text(
                                             products[index]['name'],
                                             style: const TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -129,7 +130,7 @@ class _AllProductsState extends State<AllProducts> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: h / 50,
+                                    height: h / 60,
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -160,7 +161,7 @@ class _AllProductsState extends State<AllProducts> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: h / 50,
+                                    height: h / 60,
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -191,15 +192,17 @@ class _AllProductsState extends State<AllProducts> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: h / 50,
+                                    height: h / 60,
                                   ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             "Description",
@@ -224,102 +227,60 @@ class _AllProductsState extends State<AllProducts> {
                                   SizedBox(
                                     height: h / 50,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                            'edit_product',
-                                            arguments: products[index],
-                                          );
-                                          setState(() {});
-                                        },
-                                        child: Container(
+                                  GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
                                           alignment: Alignment.center,
-                                          height: h / 30,
-                                          width: w / 4,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
+                                          title: Center(
+                                              child:
+                                                  const Text("Are you sure ?")),
+                                          actionsAlignment:
+                                              MainAxisAlignment.center,
+                                          actionsPadding:
+                                              const EdgeInsets.all(10),
+                                          actions: [
+                                            OutlinedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('cancel'),
                                             ),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 2,
+                                            OutlinedButton(
+                                              onPressed: () {
+                                                FirestoreHelper.firestoreHelper
+                                                    .deleteProduct(
+                                                        products[index].id);
+                                                setState(() {
+                                                  Get.back();
+                                                });
+                                              },
+                                              child: const Text('conform'),
                                             ),
-                                          ),
-                                          child: Text(
-                                            "Edit",
-                                            style: TextStyle(
-                                              color: Colors.grey.shade700,
-                                              fontSize: 12,
-                                              letterSpacing: 2,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: h / 30,
+                                      width: w / 8,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 2,
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              alignment: Alignment.center,
-                                              title: Center(
-                                                  child: const Text(
-                                                      "Are you sure ?")),
-                                              actionsAlignment:
-                                                  MainAxisAlignment.center,
-                                              actionsPadding:
-                                                  const EdgeInsets.all(10),
-                                              actions: [
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('cancel'),
-                                                ),
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    FirestoreHelper
-                                                        .firestoreHelper
-                                                        .deleteProduct(
-                                                            products[index].id);
-                                                    setState(() {
-                                                      Get.back();
-                                                    });
-                                                  },
-                                                  child: const Text('conform'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: h / 30,
-                                          width: w / 8,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.delete_outline_outlined,
-                                            color: Colors.red.shade200,
-                                            size: 22,
-                                          ),
-                                        ),
+                                      child: Icon(
+                                        Icons.delete_outline_outlined,
+                                        color: Colors.red.shade200,
+                                        size: 22,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
