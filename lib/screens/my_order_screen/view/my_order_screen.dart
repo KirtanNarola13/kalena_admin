@@ -63,7 +63,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                       List<DocumentSnapshot<Map<String, dynamic>>> orders =
                           entry.value;
                       return Card(
-                        margin: EdgeInsets.only(left: 10, right: 10),
+                        margin: EdgeInsets.only(left: 10, right: 10,top: 10),
                         child: ExpansionTile(
                           title: Text(customerName),
                           children: orders.map((order) {
@@ -103,8 +103,13 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     return groupedOrders;
   }
 
+
   Widget buildOrderTile(DocumentSnapshot<Map<String, dynamic>> order) {
     List<dynamic> products = order['products'];
+    double totalPrice = 0;
+    for (var product in products) {
+      totalPrice += product['price'] * product['quantity'];
+    }
     return ListTile(
       title: Text('Order ID: ${order.id}'),
       subtitle: Column(
@@ -142,6 +147,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                 ],
               ),
             ),
+
+          Text('Contact: ${order['number']}'),
+          Divider(),
+          Text('Address: ${order['address']}'),
+          Divider(),
+          Text("Total price : $totalPrice"),
         ],
       ),
       dense: true,
