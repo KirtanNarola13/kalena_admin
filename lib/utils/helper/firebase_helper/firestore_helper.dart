@@ -4,6 +4,7 @@ class FirestoreHelper {
   FirestoreHelper._();
   static FirestoreHelper firestoreHelper = FirestoreHelper._();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   Stream<QuerySnapshot<Map<String, dynamic>>> fatcheProducts() {
     return FirebaseFirestore.instance.collection('products').snapshots();
   }
@@ -14,5 +15,8 @@ class FirestoreHelper {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchOrders() {
     return firestore.collection('orders').snapshots();
+  }
+  Future<void> updateProduct(String productId, Map<String, dynamic> data) async {
+    await firestore.collection('products').doc(productId).update(data);
   }
 }

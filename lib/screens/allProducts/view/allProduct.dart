@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kalena_admin/utils/helper/firebase_helper/firestore_helper.dart';
+import '../components/edit_product.dart';
 
 class AllProducts extends StatefulWidget {
   const AllProducts({super.key});
@@ -55,7 +56,7 @@ class _AllProductsState extends State<AllProducts> {
                               ),
                               image: DecorationImage(
                                   image:
-                                      NetworkImage(products![index]['image'])),
+                                  NetworkImage(products![index]['image'])),
                             ),
                           ),
                         ),
@@ -77,7 +78,7 @@ class _AllProductsState extends State<AllProducts> {
                                 children: [
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Container(
@@ -110,11 +111,11 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             "₹ ${products[index]['mrp']}",
@@ -122,7 +123,7 @@ class _AllProductsState extends State<AllProducts> {
                                               color: Colors.grey,
                                               fontSize: 10,
                                               decoration:
-                                                  TextDecoration.lineThrough,
+                                              TextDecoration.lineThrough,
                                             ),
                                           ),
                                         ],
@@ -134,11 +135,11 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         children: [
                                           const Text(
                                             "Purchase Rate",
@@ -165,14 +166,14 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.end,
                                         children: [
                                           const Text(
-                                            "Stoke",
+                                            "Stock",
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 10,
@@ -194,93 +195,127 @@ class _AllProductsState extends State<AllProducts> {
                                   SizedBox(
                                     height: h / 60,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            "Description",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 10,
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Description",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 10,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: w / 120,
-                                          ),
-                                          Text(
-                                            products![index]['description'],
-                                            style: const TextStyle(
-                                              fontSize: 12,
+                                            SizedBox(
+                                              width: w / 120,
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            Text(
+                                              products![index]['description'],
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(
                                     height: h / 50,
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          alignment: Alignment.center,
-                                          title: Center(
-                                              child:
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              alignment: Alignment.center,
+                                              title: Center(
+                                                  child:
                                                   const Text("Are you sure ?")),
-                                          actionsAlignment:
+                                              actionsAlignment:
                                               MainAxisAlignment.center,
-                                          actionsPadding:
+                                              actionsPadding:
                                               const EdgeInsets.all(10),
-                                          actions: [
-                                            OutlinedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('cancel'),
-                                            ),
-                                            OutlinedButton(
-                                              onPressed: () {
-                                                FirestoreHelper.firestoreHelper
-                                                    .deleteProduct(
+                                              actions: [
+                                                OutlinedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('cancel'),
+                                                ),
+                                                OutlinedButton(
+                                                  onPressed: () {
+                                                    FirestoreHelper.firestoreHelper
+                                                        .deleteProduct(
                                                         products[index].id);
-                                                setState(() {
-                                                  Get.back();
-                                                });
-                                              },
-                                              child: const Text('conform'),
+                                                    setState(() {
+                                                      Get.back();
+                                                    });
+                                                  },
+                                                  child: const Text('conform'),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      height: h / 30,
-                                      width: w / 8,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(20),
-                                        ),
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 2,
+                                          );
+                                        },
+                                        child: Container(
+                                          height: h / 30,
+                                          width: w / 8,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius: const BorderRadius.all(
+                                              Radius.circular(20),
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.delete_outline_outlined,
+                                            color: Colors.red.shade200,
+                                            size: 22,
+                                          ),
                                         ),
                                       ),
-                                      child: Icon(
-                                        Icons.delete_outline_outlined,
-                                        color: Colors.red.shade200,
-                                        size: 22,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(() => EditProduct(
+                                              product: products[index]));
+                                        },
+                                        child: Container(
+                                          height: h / 30,
+                                          width: w / 8,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius: const BorderRadius.all(
+                                              Radius.circular(20),
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.blue.shade200,
+                                            size: 22,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),
