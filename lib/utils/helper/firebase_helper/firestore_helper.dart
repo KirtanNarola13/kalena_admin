@@ -19,4 +19,7 @@ class FirestoreHelper {
   Future<void> updateProduct(String productId, Map<String, dynamic> data) async {
     await firestore.collection('products').doc(productId).update(data);
   }
+  Future<void> updateproduct(String productId, Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance.collection('products').doc(productId).update(data);
+  }
 }

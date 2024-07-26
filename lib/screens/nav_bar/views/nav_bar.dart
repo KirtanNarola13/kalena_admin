@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:kalena_admin/screens/add_product/view/add_product.dart';
 import 'package:kalena_admin/screens/allProducts/view/allProduct.dart';
+import 'package:kalena_admin/screens/categoryscreen/views/category_screen.dart';
 import 'package:kalena_admin/screens/my_order_screen/view/my_order_screen.dart';
 
 class NavBar extends StatefulWidget {
@@ -30,11 +31,22 @@ class _NavBarState extends State<NavBar> {
           });
         },
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.add), label: 'Listing'),
           NavigationDestination(
-              icon: Icon(Icons.view_agenda_outlined), label: 'Products'),
+            icon: Icon(Icons.add),
+            label: 'Listing',
+          ),
           NavigationDestination(
-              icon: Icon(Icons.shopping_bag_outlined), label: 'Order'),
+            icon: Icon(Icons.category),
+            label: 'Category',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.view_agenda_outlined),
+            label: 'Products',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_bag_outlined),
+            label: 'Order',
+          ),
           // NavigationDestination(
           //     icon: Icon(Icons.work_outline_sharp), label: 'Work'),
           // NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
@@ -50,7 +62,8 @@ class NavigationController {
 
   final screens = [
     ProductListingScreen(),
-    AllProducts(),
+    const AddCategory(),
+    const AllProducts(),
     MyOrderScreen(),
   ];
 }
