@@ -1,13 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:kalena_admin/utils/helper/firebase_helper/firestore_helper.dart';
 
 class MyOrderScreen extends StatefulWidget {
-  MyOrderScreen({Key? key}) : super(key: key);
+  const MyOrderScreen({Key? key}) : super(key: key);
 
   @override
   State<MyOrderScreen> createState() => _MyOrderScreenState();
@@ -17,7 +15,6 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
-    double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirestoreHelper.firestoreHelper.fetchOrders(),
@@ -40,7 +37,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
+                        const Text(
                           "Total Order :-",
                           style: TextStyle(
                             fontSize: 16,
@@ -48,7 +45,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                         ),
                         Text(
                           groupedOrders.length.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                           ),
                         ),
@@ -63,7 +60,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                       List<DocumentSnapshot<Map<String, dynamic>>> orders =
                           entry.value;
                       return Card(
-                        margin: EdgeInsets.only(left: 10, right: 10,top: 10),
+                        margin: const EdgeInsets.only(left: 10, right: 10,top: 10),
                         child: ExpansionTile(
                           title: Text(customerName),
                           children: orders.map((order) {
@@ -77,7 +74,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
               ],
             );
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },
@@ -117,7 +114,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
         children: [
           for (var product in products)
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               height: 150,
               decoration: BoxDecoration(
                   border: Border.all(
@@ -127,7 +124,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 100,
                       child: Image.network(product['image']),
                     ),
@@ -149,15 +146,15 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
             ),
 
           Text('Contact: ${order['number']}'),
-          Divider(),
+          const Divider(),
           Text('Address: ${order['address']}'),
-          Divider(),
+          const Divider(),
           Text("Total price : $totalPrice"),
         ],
       ),
       dense: true,
       trailing: IconButton(
-        icon: Text('Complete'),
+        icon: const Text('Complete'),
         onPressed: () {
           _completeOrder(order.id);
         },

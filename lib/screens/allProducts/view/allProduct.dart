@@ -370,7 +370,8 @@ class _AllProductsState extends State<AllProducts> {
               child: Text('${snapshot.error}'),
             );
           } else if (snapshot.hasData) {
-            List<QueryDocumentSnapshot<Map<String, dynamic>>>? products = snapshot.data?.docs;
+            List<QueryDocumentSnapshot<Map<String, dynamic>>>? products =
+                snapshot.data?.docs;
             return ListView.builder(
                 itemCount: products?.length,
                 itemBuilder: (context, index) {
@@ -378,16 +379,25 @@ class _AllProductsState extends State<AllProducts> {
                   return Container(
                     height: h / 3,
                     width: w / 0.9,
-                    margin: const EdgeInsets.only(top: 30, left: 20, right: 10),
+                    margin: const EdgeInsets.only(
+                      top: 30,
+                      left: 20,
+                      right: 10,
+                    ),
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade300.withOpacity(0.3),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(25),
+                      color: Colors.grey.shade300.withOpacity(
+                        0.3,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(
+                          25,
                         ),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 2,
-                        )),
+                      ),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 2,
+                      ),
+                    ),
                     child: Row(
                       children: [
                         Expanded(
@@ -395,11 +405,18 @@ class _AllProductsState extends State<AllProducts> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(25),
-                                bottomLeft: Radius.circular(25),
+                                topLeft: Radius.circular(
+                                  25,
+                                ),
+                                bottomLeft: Radius.circular(
+                                  25,
+                                ),
                               ),
                               image: DecorationImage(
-                                  image: NetworkImage(product['image'])),
+                                image: NetworkImage(
+                                  product['image'],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -407,7 +424,11 @@ class _AllProductsState extends State<AllProducts> {
                           flex: 6,
                           child: Container(
                             padding: const EdgeInsets.only(
-                                top: 20, left: 10, right: 10, bottom: 10),
+                              top: 20,
+                              left: 10,
+                              right: 10,
+                              bottom: 10,
+                            ),
                             decoration: const BoxDecoration(
                               border: Border(
                                 left: BorderSide(
@@ -421,7 +442,7 @@ class _AllProductsState extends State<AllProducts> {
                                 children: [
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Container(
@@ -454,11 +475,11 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             "₹ ${product['mrp']}",
@@ -466,7 +487,7 @@ class _AllProductsState extends State<AllProducts> {
                                               color: Colors.grey,
                                               fontSize: 10,
                                               decoration:
-                                              TextDecoration.lineThrough,
+                                                  TextDecoration.lineThrough,
                                             ),
                                           ),
                                         ],
@@ -485,11 +506,11 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
                                           const Text(
                                             "Purchase Rate",
@@ -516,11 +537,11 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
                                           const Text(
                                             "Stock",
@@ -549,13 +570,13 @@ class _AllProductsState extends State<AllProducts> {
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             const Text(
                                               "Description",
@@ -568,7 +589,8 @@ class _AllProductsState extends State<AllProducts> {
                                               width: w / 120,
                                             ),
                                             Text(
-                                              product['description'] ?? 'No Description',
+                                              product['description'] ??
+                                                  'No Description',
                                               style: const TextStyle(
                                                 fontSize: 12,
                                               ),
@@ -583,7 +605,7 @@ class _AllProductsState extends State<AllProducts> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       GestureDetector(
                                         onTap: () {
@@ -593,11 +615,11 @@ class _AllProductsState extends State<AllProducts> {
                                               alignment: Alignment.center,
                                               title: const Center(
                                                   child:
-                                                  Text("Are you sure ?")),
+                                                      Text("Are you sure ?")),
                                               actionsAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               actionsPadding:
-                                              const EdgeInsets.all(10),
+                                                  const EdgeInsets.all(10),
                                               actions: [
                                                 OutlinedButton(
                                                   onPressed: () {
@@ -607,9 +629,10 @@ class _AllProductsState extends State<AllProducts> {
                                                 ),
                                                 OutlinedButton(
                                                   onPressed: () {
-                                                    FirestoreHelper.firestoreHelper
+                                                    FirestoreHelper
+                                                        .firestoreHelper
                                                         .deleteProduct(
-                                                        products[index].id);
+                                                            products[index].id);
                                                     setState(() {
                                                       Get.back();
                                                     });
@@ -625,7 +648,8 @@ class _AllProductsState extends State<AllProducts> {
                                           width: w / 8,
                                           decoration: BoxDecoration(
                                             color: Colors.grey.withOpacity(0.2),
-                                            borderRadius: const BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(20),
                                             ),
                                             border: Border.all(
@@ -650,7 +674,8 @@ class _AllProductsState extends State<AllProducts> {
                                           width: w / 8,
                                           decoration: BoxDecoration(
                                             color: Colors.grey.withOpacity(0.2),
-                                            borderRadius: const BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(20),
                                             ),
                                             border: Border.all(

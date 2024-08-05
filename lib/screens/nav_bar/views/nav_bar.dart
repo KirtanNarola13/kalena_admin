@@ -1,5 +1,4 @@
 // nav_bar.dart
-
 import 'package:flutter/material.dart';
 import 'package:kalena_admin/screens/add_product/view/add_product.dart';
 import 'package:kalena_admin/screens/allProducts/view/allProduct.dart';
@@ -19,16 +18,18 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         height: h / 13,
         elevation: 0,
         selectedIndex: controller.selectedIndex,
         onDestinationSelected: (index) {
-          setState(() {
-            controller.selectedIndex = index;
-          });
+          setState(
+            () {
+              controller.selectedIndex = index;
+            },
+          );
         },
         destinations: const [
           NavigationDestination(
@@ -40,7 +41,9 @@ class _NavBarState extends State<NavBar> {
             label: 'Category',
           ),
           NavigationDestination(
-            icon: Icon(Icons.view_agenda_outlined),
+            icon: Icon(
+              Icons.view_agenda_outlined,
+            ),
             label: 'Products',
           ),
           NavigationDestination(
@@ -61,9 +64,9 @@ class NavigationController {
   int selectedIndex = 0;
 
   final screens = [
-    ProductListingScreen(),
+    const ProductListingScreen(),
     const AddCategory(),
     const AllProducts(),
-    MyOrderScreen(),
+    const MyOrderScreen(),
   ];
 }

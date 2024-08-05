@@ -181,10 +181,14 @@ class _EditProductState extends State<EditProduct> {
   }
 
   Future<void> _fetchCategories() async {
-    final snapshot = await FirebaseFirestore.instance.collection('category').get();
-    setState(() {
-      _categories = snapshot.docs.map((doc) => doc['name'] as String).toList();
-    });
+    final snapshot =
+        await FirebaseFirestore.instance.collection('category').get();
+    setState(
+      () {
+        _categories =
+            snapshot.docs.map((doc) => doc['name'] as String).toList();
+      },
+    );
   }
 
   @override
@@ -265,7 +269,8 @@ class _EditProductState extends State<EditProduct> {
                         'rate': double.parse(_rateController.text),
                         'stoke': int.parse(_stockController.text),
                         'description': _descriptionController.text,
-                        'category': _selectedCategory ?? 'Uncategorized', // Update category
+                        'category': _selectedCategory ??
+                            'Uncategorized', // Update category
                       },
                     );
                     Get.back();

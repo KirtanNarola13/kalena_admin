@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Timer(
-        Duration(
+        const Duration(
           seconds: 3,
         ), () {
       Get.offNamedUntil(
@@ -26,20 +26,22 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           Expanded(
             flex: 2,
-            child: Image.asset('assets/kalena_mart.png'),
+            child: Image.asset(
+              'assets/kalena_mart.png',
+            ),
           ),
-          Spacer(),
-          Expanded(
+          const Spacer(),
+          const Expanded(
             child: Center(
               child: CircularProgressIndicator(
                 color: Colors.red,
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
