@@ -39,8 +39,13 @@ dependencies:
   firebase_auth :
   cloud_firestore :
   firebase_storage:
-  image_picker: ^1.1.0
+  image_picker: ^1.1.2
   get: ^4.6.6
+  pdf: ^3.9.0
+  printing: ^5.10.0
+  path_provider:
+  url_launcher: ^6.1.10
+  share_plus:
 
 dev_dependencies:
   flutter_test:

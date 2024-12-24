@@ -1,348 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:kalena_admin/utils/helper/firebase_helper/firestore_helper.dart';
-// import '../components/edit_product.dart';
-//
-// class AllProducts extends StatefulWidget {
-//   const AllProducts({super.key});
-//
-//   @override
-//   State<AllProducts> createState() => _AllProductsState();
-// }
-//
-// class _AllProductsState extends State<AllProducts> {
-//   @override
-//   Widget build(BuildContext context) {
-//     double h = MediaQuery.sizeOf(context).height;
-//     double w = MediaQuery.sizeOf(context).width;
-//     return Scaffold(
-//       body: StreamBuilder(
-//         stream: FirestoreHelper.firestoreHelper.fatcheProducts(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasError) {
-//             return Center(
-//               child: Text('${snapshot.error}'),
-//             );
-//           } else if (snapshot.hasData) {
-//             List<QueryDocumentSnapshot<Map<String, dynamic>>>? products =
-//                 snapshot.data?.docs;
-//             return ListView.builder(
-//                 itemCount: products?.length,
-//                 itemBuilder: (context, index) {
-//                   return Container(
-//                     height: h / 3,
-//                     width: w / 0.9,
-//                     margin: const EdgeInsets.only(top: 30, left: 20, right: 10),
-//                     decoration: BoxDecoration(
-//                         color: Colors.grey.shade300.withOpacity(0.3),
-//                         borderRadius: const BorderRadius.all(
-//                           Radius.circular(25),
-//                         ),
-//                         border: Border.all(
-//                           color: Colors.grey,
-//                           width: 2,
-//                         )),
-//                     child: Row(
-//                       children: [
-//                         Expanded(
-//                           flex: 3,
-//                           child: Container(
-//                             decoration: BoxDecoration(
-//                               borderRadius: const BorderRadius.only(
-//                                 topLeft: Radius.circular(25),
-//                                 bottomLeft: Radius.circular(25),
-//                               ),
-//                               image: DecorationImage(
-//                                   image:
-//                                   NetworkImage(products![index]['image'])),
-//                             ),
-//                           ),
-//                         ),
-//                         Expanded(
-//                           flex: 6,
-//                           child: Container(
-//                             padding: const EdgeInsets.only(
-//                                 top: 20, left: 10, right: 10, bottom: 10),
-//                             decoration: const BoxDecoration(
-//                               border: Border(
-//                                 left: BorderSide(
-//                                   color: Colors.grey,
-//                                   width: 2,
-//                                 ),
-//                               ),
-//                             ),
-//                             child: SingleChildScrollView(
-//                               child: Column(
-//                                 children: [
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       Expanded(
-//                                         child: Container(
-//                                           alignment: Alignment.topLeft,
-//                                           child: Text(
-//                                             products[index]['name'],
-//                                             style: const TextStyle(
-//                                               fontSize: 14,
-//                                               fontWeight: FontWeight.w500,
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                       Expanded(
-//                                         child: Container(
-//                                           alignment: Alignment.topRight,
-//                                           child: Text(
-//                                             "₹ ${products[index]['price']}",
-//                                             style: const TextStyle(
-//                                               fontSize: 16,
-//                                               fontWeight: FontWeight.w500,
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   SizedBox(
-//                                     height: h / 80,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       Row(
-//                                         crossAxisAlignment:
-//                                         CrossAxisAlignment.end,
-//                                         children: [
-//                                           Text(
-//                                             "₹ ${products[index]['mrp']}",
-//                                             style: const TextStyle(
-//                                               color: Colors.grey,
-//                                               fontSize: 10,
-//                                               decoration:
-//                                               TextDecoration.lineThrough,
-//                                             ),
-//                                           ),
-//                                           Text(
-//                                             "${products[index]['category']}",
-//                                             style: const TextStyle(
-//                                               color: Colors.grey,
-//                                               fontSize: 10,
-//                                               decoration:
-//                                               TextDecoration.lineThrough,
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   SizedBox(
-//                                     height: h / 60,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       Row(
-//                                         crossAxisAlignment:
-//                                         CrossAxisAlignment.end,
-//                                         children: [
-//                                           const Text(
-//                                             "Purchase Rate",
-//                                             style: TextStyle(
-//                                               color: Colors.grey,
-//                                               fontSize: 10,
-//                                             ),
-//                                           ),
-//                                           SizedBox(
-//                                             width: w / 120,
-//                                           ),
-//                                           Text(
-//                                             "${products![index]['rate']}",
-//                                             style: const TextStyle(
-//                                               fontSize: 12,
-//                                             ),
-//                                           )
-//                                         ],
-//                                       )
-//                                     ],
-//                                   ),
-//                                   SizedBox(
-//                                     height: h / 60,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       Row(
-//                                         crossAxisAlignment:
-//                                         CrossAxisAlignment.end,
-//                                         children: [
-//                                           const Text(
-//                                             "Stock",
-//                                             style: TextStyle(
-//                                               color: Colors.grey,
-//                                               fontSize: 10,
-//                                             ),
-//                                           ),
-//                                           SizedBox(
-//                                             width: w / 120,
-//                                           ),
-//                                           Text(
-//                                             "${products![index]['stoke']}",
-//                                             style: const TextStyle(
-//                                               fontSize: 12,
-//                                             ),
-//                                           )
-//                                         ],
-//                                       )
-//                                     ],
-//                                   ),
-//                                   SizedBox(
-//                                     height: h / 60,
-//                                   ),
-//                                   SingleChildScrollView(
-//                                     scrollDirection: Axis.horizontal,
-//                                     child: Row(
-//                                       mainAxisAlignment:
-//                                       MainAxisAlignment.spaceBetween,
-//                                       children: [
-//                                         Column(
-//                                           mainAxisAlignment:
-//                                           MainAxisAlignment.start,
-//                                           crossAxisAlignment:
-//                                           CrossAxisAlignment.start,
-//                                           children: [
-//                                             const Text(
-//                                               "Description",
-//                                               style: TextStyle(
-//                                                 color: Colors.grey,
-//                                                 fontSize: 10,
-//                                               ),
-//                                             ),
-//                                             SizedBox(
-//                                               width: w / 120,
-//                                             ),
-//                                             Text(
-//                                               products![index]['description'],
-//                                               style: const TextStyle(
-//                                                 fontSize: 12,
-//                                               ),
-//                                             )
-//                                           ],
-//                                         )
-//                                       ],
-//                                     ),
-//                                   ),
-//                                   SizedBox(
-//                                     height: h / 50,
-//                                   ),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       GestureDetector(
-//                                         onTap: () {
-//                                           showDialog(
-//                                             context: context,
-//                                             builder: (context) => AlertDialog(
-//                                               alignment: Alignment.center,
-//                                               title: Center(
-//                                                   child:
-//                                                   const Text("Are you sure ?")),
-//                                               actionsAlignment:
-//                                               MainAxisAlignment.center,
-//                                               actionsPadding:
-//                                               const EdgeInsets.all(10),
-//                                               actions: [
-//                                                 OutlinedButton(
-//                                                   onPressed: () {
-//                                                     Navigator.pop(context);
-//                                                   },
-//                                                   child: const Text('cancel'),
-//                                                 ),
-//                                                 OutlinedButton(
-//                                                   onPressed: () {
-//                                                     FirestoreHelper.firestoreHelper
-//                                                         .deleteProduct(
-//                                                         products[index].id);
-//                                                     setState(() {
-//                                                       Get.back();
-//                                                     });
-//                                                   },
-//                                                   child: const Text('conform'),
-//                                                 ),
-//                                               ],
-//                                             ),
-//                                           );
-//                                         },
-//                                         child: Container(
-//                                           height: h / 30,
-//                                           width: w / 8,
-//                                           decoration: BoxDecoration(
-//                                             color: Colors.grey.withOpacity(0.2),
-//                                             borderRadius: const BorderRadius.all(
-//                                               Radius.circular(20),
-//                                             ),
-//                                             border: Border.all(
-//                                               color: Colors.grey,
-//                                               width: 2,
-//                                             ),
-//                                           ),
-//                                           child: Icon(
-//                                             Icons.delete_outline_outlined,
-//                                             color: Colors.red.shade200,
-//                                             size: 22,
-//                                           ),
-//                                         ),
-//                                       ),
-//                                       GestureDetector(
-//                                         onTap: () {
-//                                           Get.to(() => EditProduct(
-//                                               product: products[index]));
-//                                         },
-//                                         child: Container(
-//                                           height: h / 30,
-//                                           width: w / 8,
-//                                           decoration: BoxDecoration(
-//                                             color: Colors.grey.withOpacity(0.2),
-//                                             borderRadius: const BorderRadius.all(
-//                                               Radius.circular(20),
-//                                             ),
-//                                             border: Border.all(
-//                                               color: Colors.grey,
-//                                               width: 2,
-//                                             ),
-//                                           ),
-//                                           child: Icon(
-//                                             Icons.edit,
-//                                             color: Colors.blue.shade200,
-//                                             size: 22,
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   );
-//                 });
-//           }
-//           return const Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -357,355 +12,171 @@ class AllProducts extends StatefulWidget {
 }
 
 class _AllProductsState extends State<AllProducts> {
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.sizeOf(context).height;
     double w = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
-      body: StreamBuilder(
-        stream: FirestoreHelper.firestoreHelper.fatcheProducts(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('${snapshot.error}'),
-            );
-          } else if (snapshot.hasData) {
-            List<QueryDocumentSnapshot<Map<String, dynamic>>>? products =
-                snapshot.data?.docs;
-            return ListView.builder(
-                itemCount: products?.length,
-                itemBuilder: (context, index) {
-                  var product = products![index].data();
-                  return Container(
-                    height: h / 3,
-                    width: w / 0.9,
-                    margin: const EdgeInsets.only(
-                      top: 30,
-                      left: 20,
-                      right: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300.withOpacity(
-                        0.3,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          25,
+      appBar: AppBar(
+        title: const Text("All Products"),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: "Search products...",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirestoreHelper.firestoreHelper.fatcheProducts(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                } else if (snapshot.hasData) {
+                  List<QueryDocumentSnapshot<Map<String, dynamic>>>? products =
+                      snapshot.data?.docs;
+
+                  // Filter products based on the search query
+                  var filteredProducts = products
+                      ?.where((product) => product
+                          .data()['name']
+                          .toString()
+                          .toLowerCase()
+                          .contains(searchQuery))
+                      .toList();
+
+                  if (filteredProducts == null || filteredProducts.isEmpty) {
+                    return const Center(
+                      child: Text("No products found."),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredProducts.length,
+                    itemBuilder: (context, index) {
+                      var product = filteredProducts[index].data();
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
                         ),
-                      ),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 2,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(
-                                  25,
-                                ),
-                                bottomLeft: Radius.circular(
-                                  25,
-                                ),
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  product['image'],
-                                ),
-                              ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 3,
+                        child: ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              product['image'],
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.broken_image, size: 60),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                              top: 20,
-                              left: 10,
-                              right: 10,
-                              bottom: 10,
+                          title: Text(
+                            product['name'],
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                left: BorderSide(
-                                  color: Colors.grey,
-                                  width: 2,
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 4),
+                              Text(
+                                "Price: ₹${product['price']}",
+                                style: const TextStyle(
+                                  fontSize: 14,
                                 ),
                               ),
-                            ),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            product['name'],
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "Category: ${product['category']}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit,
+                                    color: Colors.blue.shade400),
+                                onPressed: () {
+                                  Get.to(() => EditProduct(
+                                      product: filteredProducts[index]));
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete,
+                                    color: Colors.red.shade400),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text("Delete Product"),
+                                      content: const Text(
+                                          "Are you sure you want to delete this product?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text("Cancel"),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topRight,
-                                          child: Text(
-                                            "₹ ${product['price']}",
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
+                                        TextButton(
+                                          onPressed: () {
+                                            FirestoreHelper.firestoreHelper
+                                                .deleteProduct(
+                                                    filteredProducts[index].id);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Delete"),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: h / 80,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "₹ ${product['mrp']}",
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 10,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        "${product['category']}",
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: h / 60,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          const Text(
-                                            "Purchase Rate",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: w / 120,
-                                          ),
-                                          Text(
-                                            "${product['rate'] ?? 'N/A'}",
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: h / 60,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          const Text(
-                                            "Stock",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: w / 120,
-                                          ),
-                                          Text(
-                                            "${product['stoke'] ?? '0'}",
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: h / 60,
-                                  ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Description",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: w / 120,
-                                            ),
-                                            Text(
-                                              product['description'] ??
-                                                  'No Description',
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                              ),
-                                            )
-                                          ],
-                                        )
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: h / 50,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              alignment: Alignment.center,
-                                              title: const Center(
-                                                  child:
-                                                      Text("Are you sure ?")),
-                                              actionsAlignment:
-                                                  MainAxisAlignment.center,
-                                              actionsPadding:
-                                                  const EdgeInsets.all(10),
-                                              actions: [
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('cancel'),
-                                                ),
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    FirestoreHelper
-                                                        .firestoreHelper
-                                                        .deleteProduct(
-                                                            products[index].id);
-                                                    setState(() {
-                                                      Get.back();
-                                                    });
-                                                  },
-                                                  child: const Text('conform'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: h / 30,
-                                          width: w / 8,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.delete_outline_outlined,
-                                            color: Colors.red.shade200,
-                                            size: 22,
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.to(() => EditProduct(
-                                              product: products[index]));
-                                        },
-                                        child: Container(
-                                          height: h / 30,
-                                          width: w / 8,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: Colors.blue.shade200,
-                                            size: 22,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
-                });
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

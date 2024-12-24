@@ -15,7 +15,8 @@ class ProductListingScreen extends StatefulWidget {
 class _ProductListingScreenState extends State<ProductListingScreen> {
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
-  final TextEditingController _productDescriptionController = TextEditingController();
+  final TextEditingController _productDescriptionController =
+      TextEditingController();
   final TextEditingController _productSkuController = TextEditingController();
   final TextEditingController _stokeController = TextEditingController();
   final TextEditingController _mrpController = TextEditingController();
@@ -54,74 +55,85 @@ class _ProductListingScreenState extends State<ProductListingScreen> {
   }
 
   Future<void> _addProduct() async {
-    setState(
-      () {
-        _isUploading = true;
-      },
-    );
+    if (_imageFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select an image.')),
+      );
+      return;
+    }
 
-    String imageUrl = await _uploadImageToFirebase(
-      File(
-        _imageFile!.path,
-      ),
-    );
+    if (_category == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a category.')),
+      );
+      return;
+    }
 
-    String productName = _productNameController.text;
-    double productPrice = double.parse(_productPriceController.text);
-    double mrp = double.parse(_mrpController.text);
-    double stoke = double.parse(_stokeController.text);
-    String productDescription = _productDescriptionController.text;
-    String productSku = _productSkuController.text;
-    String productRate = _productRate.text;
+    setState(() => _isUploading = true);
+
+    String imageUrl = await _uploadImageToFirebase(File(_imageFile!.path));
+    if (imageUrl.isEmpty) {
+      setState(() => _isUploading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Image upload failed. Please try again.')),
+      );
+      return;
+    }
+
+    double productPrice;
+    double mrp;
+    int stock;
+    try {
+      productPrice = double.parse(_productPriceController.text);
+      mrp = double.parse(_mrpController.text);
+      stock = int.parse(_stokeController.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Invalid input. Please check your fields.')),
+      );
+      setState(() => _isUploading = false);
+      return;
+    }
 
     try {
-      await FirebaseFirestore.instance.collection('products').add(
-        {
-          'image': imageUrl,
-          'name': productName,
-          'mrp': mrp,
-          'price': productPrice,
-          'rate': productRate,
-          'stoke': stoke,
-          'category': _category ?? 'Uncategorized', // Add default category
-          'description': productDescription,
-          'sku': productSku,
-        },
-      );
+      await FirebaseFirestore.instance.collection('products').add({
+        'image': imageUrl,
+        'name': _productNameController.text,
+        'mrp': mrp,
+        'price': productPrice,
+        'rate': _productRate.text,
+        'stoke': stock,
+        'category': _category ?? 'Uncategorized',
+        'description': _productDescriptionController.text,
+        'sku': _productSkuController.text,
+      });
 
-      _productNameController.clear();
-      _productPriceController.clear();
-      _productDescriptionController.clear();
-      _productSkuController.clear();
-      _productRate.clear();
-      _mrpController.clear();
-      _stokeController.clear();
-      categorycon.clear();
-      setState(
-        () {
-          _imageFile = null;
-          _isUploading = false;
-        },
-      );
-      ScaffoldMessenger.of((!context.mounted) as BuildContext).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Product added successfully!',
-          ),
-        ),
+      _clearFields();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Product added successfully!')),
       );
     } catch (e) {
-      if (kDebugMode) {
-        print(
-          'Error adding product to Firestore: $e',
-        );
-      }
-      setState(
-        () {
-          _isUploading = false;
-        },
+      if (kDebugMode) print('Error adding product: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Error adding product. Please try again.')),
       );
+    } finally {
+      setState(() => _isUploading = false);
     }
+  }
+
+  void _clearFields() {
+    _productNameController.clear();
+    _productPriceController.clear();
+    _productDescriptionController.clear();
+    _productSkuController.clear();
+    _productRate.clear();
+    _mrpController.clear();
+    _stokeController.clear();
+    categorycon.clear();
+    setState(() => _imageFile = null);
   }
 
   @override

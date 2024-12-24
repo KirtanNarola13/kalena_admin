@@ -4,6 +4,7 @@ import 'package:kalena_admin/screens/add_product/view/add_product.dart';
 import 'package:kalena_admin/screens/allProducts/view/allProduct.dart';
 import 'package:kalena_admin/screens/categoryscreen/views/category_screen.dart';
 import 'package:kalena_admin/screens/my_order_screen/view/my_order_screen.dart';
+import 'package:kalena_admin/screens/profit/profit.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key});
@@ -50,9 +51,7 @@ class _NavBarState extends State<NavBar> {
             icon: Icon(Icons.shopping_bag_outlined),
             label: 'Order',
           ),
-          // NavigationDestination(
-          //     icon: Icon(Icons.work_outline_sharp), label: 'Work'),
-          // NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
+          NavigationDestination(icon: Icon(Icons.money), label: 'Profit'),
         ],
       ),
       body: controller.screens[controller.selectedIndex],
@@ -68,5 +67,6 @@ class NavigationController {
     const AddCategory(),
     const AllProducts(),
     const MyOrderScreen(),
+    const ProfitScreen(),
   ];
 }
